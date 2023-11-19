@@ -30,10 +30,8 @@
         "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register ./src/server.ts",
         "prisma-concat": "ts-node prisma/concat-schemas.ts && prisma format",
         "generate": "npm run prisma-concat && prisma generate",
-        "prisma:generate": "npx prisma generate",
-        "prisma:migrate": "npx prisma migrate dev",
-        "prisma:migrate:deploy": "npx prisma migrate deploy",
-        "prisma:studio": "npx prisma studio"
+        "migrate": "npx prisma migrate dev --name init",
+        "seeds": "ts-node prisma/scripts/runSeeds.ts"
     },
     "keywords": [],
     "author": "",

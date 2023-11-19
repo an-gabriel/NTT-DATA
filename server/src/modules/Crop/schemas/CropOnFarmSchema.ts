@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { FarmerSchema } from '@/modules/Farmer/schemas/FarmerSchema';
-import { CropSchema } from '@/modules/crop/schemas/CropSchema';
+import { CropSchema } from '@/modules/Crop/schemas/CropSchema';
 
 export const CropOnFarmSchema = z.object({
     id: z.string().uuid(),

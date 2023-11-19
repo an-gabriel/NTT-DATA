@@ -9,8 +9,24 @@ generator client {
 
 model Crop {
   id         String       @id @default(uuid())
-  name       String
+  name       String       @unique
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  deletedAt  DateTime?
+  active     Boolean      @default(true)
   CropOnFarm CropOnFarm[]
+}
+
+model CropOnFarm {
+  id        String    @id @default(uuid())
+  farmerId  String
+  cropId    String
+  farmer    Farmer    @relation(fields: [farmerId], references: [id])
+  crop      Crop      @relation(fields: [cropId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  active    Boolean   @default(true)
 }
 
 model Farmer {
@@ -25,12 +41,8 @@ model Farmer {
   arableAreaHectares     Float
   vegetationAreaHectares Float
   crops                  CropOnFarm[]
-}
-
-model CropOnFarm {
-  id       String @id @default(uuid())
-  farmerId String
-  cropId   String
-  farmer   Farmer @relation(fields: [farmerId], references: [id])
-  crop     Crop   @relation(fields: [cropId], references: [id])
+  createdAt              DateTime     @default(now())
+  updatedAt              DateTime     @updatedAt
+  deletedAt              DateTime?
+  active                 Boolean      @default(true)
 }

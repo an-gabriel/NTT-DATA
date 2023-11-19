@@ -1,13 +1,17 @@
 model Farmer {
-  id                   String   @id @default(uuid())
-  documentType         String
-  documentNumber       String
-  name                 String
-  farmName             String
-  city                 String
-  state                String
-  totalAreaHectares    Float
-  arableAreaHectares   Float
-  vegetationAreaHectares Float
-  crops                CropOnFarm[]
+    id                   String   @id @default(uuid())
+    documentType         String
+    documentNumber       String
+    name                 String
+    farmName             String
+    city                 String
+    state                String
+    totalAreaHectares    Float
+    arableAreaHectares   Float
+    vegetationAreaHectares Float
+    crops                CropOnFarm[]
+    createdAt DateTime @default(now())  
+    updatedAt DateTime @updatedAt
+    deletedAt DateTime?
+    active    Boolean  @default(true)
 }
