@@ -3,7 +3,7 @@ import express, { NextFunction, Request, Response, Router } from 'express';
 import ValidationMiddleware from '@/Middleware/ValidateSchema'
 
 import FarmerControllers from '@/modules/Farmer/controllers/Farmer.controllers';
-import { FarmerSchema } from '@/modules/Farmer/schemas/FarmerSchema';
+import { FarmerCreateSchema } from '@/modules/Farmer/schemas/FarmerCreateSchema';
 
 /**
   * @swagger
@@ -110,7 +110,7 @@ class FarmersCreate {
     }
 
     private initializeRoutes(): void {
-        this.router.post('/', ValidationMiddleware.validateSchema(FarmerSchema), this.createFarmer.bind(this));
+        this.router.post('/', ValidationMiddleware.validateSchema(FarmerCreateSchema), this.createFarmer.bind(this));
     }
 }
 
