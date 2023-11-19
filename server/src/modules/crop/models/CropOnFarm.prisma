@@ -1,0 +1,7 @@
+model CropOnFarm {
+  id        String  @id @default(uuid())
+  farmerId  String
+  cropId    String
+  farmer    Farmer  @relation(fields: [farmerId], references: [id])
+  crop      Crop    @relation(fields: [cropId], references: [id])
+}

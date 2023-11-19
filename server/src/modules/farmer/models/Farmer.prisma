@@ -1,0 +1,13 @@
+model Farmer {
+  id                   String   @id @default(uuid())
+  documentType         String
+  documentNumber       String
+  name                 String
+  farmName             String
+  city                 String
+  state                String
+  totalAreaHectares    Float
+  arableAreaHectares   Float
+  vegetationAreaHectares Float
+  crops                CropOnFarm[]
+}
