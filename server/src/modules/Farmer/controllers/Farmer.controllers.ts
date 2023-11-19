@@ -1,5 +1,5 @@
 import FarmerService from '@/modules/Farmer/service/Farmer.service';
-import { FarmerCreateInput, FarmerGetAll } from '@/modules/Farmer/interfaces';
+import { FarmerCreateInput, FarmerGetAll, FarmerUpdateInput } from '@/modules/Farmer/interfaces';
 
 class FarmerController {
     async getAllFarmers(): Promise<FarmerGetAll[] | Error> {
@@ -17,6 +17,16 @@ class FarmerController {
             return createdFarmer
         } catch (error) {
             throw new Error("Erro interno do servidor");
+        }
+    }
+
+    async updateFarmer(id: string, farmerData: Partial<FarmerUpdateInput>) {
+        try {   
+            console.log(id, farmerData)
+            const updatedFarmer = await FarmerService.updateFarmer(id, farmerData);
+            return updatedFarmer;
+        } catch (error) {
+            throw new Error('Erro interno do servidor');
         }
     }
 }

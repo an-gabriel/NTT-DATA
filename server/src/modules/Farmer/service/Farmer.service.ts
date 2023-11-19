@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-import { FarmerCreateInput, FarmerQueryParams, FarmerGetAll } from '@/modules/Farmer/interfaces'
+import { FarmerCreateInput, FarmerQueryParams, FarmerGetAll, FarmerUpdateInput } from '@/modules/Farmer/interfaces'
 
 class FarmerService {
     private prisma: PrismaClient;
@@ -25,6 +25,22 @@ class FarmerService {
 
     async createFarmer(data: FarmerCreateInput) {
         return this.prisma.farmer.create({
+            data,
+        });
+    }
+
+    async updateFarmer(id: string, data: FarmerUpdateInput): Promise<FarmerGetAll | null> {
+
+        const existingFarmer = await this.prisma.farmer.findUnique({
+            where: { id },
+        });
+
+        if (!existingFarmer) {
+            throw new Error(`Farmer with ID ${id} not found.`);
+        }
+
+        return this.prisma.farmer.update({
+            where: { id },
             data,
         });
     }
