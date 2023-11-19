@@ -82,7 +82,7 @@ class GetAllRouter {
 
     private async getAllFarmers(req: Request, res: Response): Promise<void> {
         try {
-            const farmers = await FarmerControllers.getAllFarmers(req, res);
+            const farmers = await FarmerControllers.getAllFarmers();
             res.status(200).json(farmers);
         } catch (error) {
             console.error(error);
