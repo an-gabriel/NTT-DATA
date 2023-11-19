@@ -1,10 +1,8 @@
-import { Request, Response } from 'express';
 import FarmerService from '@/modules/Farmer/service/Farmer.service';
-import { FarmerGetAll } from '@/modules/Farmer/interfaces';
-
+import { FarmerCreateInput, FarmerGetAll } from '@/modules/Farmer/interfaces';
 
 class FarmerController {
-    async getAllFarmers(req: Request, res: Response): Promise<FarmerGetAll[] | Error> {
+    async getAllFarmers(): Promise<FarmerGetAll[] | Error> {
         try {
             const farmers = await FarmerService.getAllFarmers();
             return farmers
@@ -13,10 +11,8 @@ class FarmerController {
         }
     }
 
-    async createFarmer(req: Request, res: Response) {
+    async createFarmer(farmerData: FarmerCreateInput) {
         try {
-            const farmerData = req.body;
-
             const createdFarmer = await FarmerService.createFarmer(farmerData);
             return createdFarmer
         } catch (error) {
