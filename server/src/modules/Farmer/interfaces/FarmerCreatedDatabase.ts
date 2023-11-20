@@ -1,4 +1,5 @@
-export interface FarmerCreateRequest {
+export interface FarmerCreateDatabase {
+    id: string;
     documentType: string;
     documentNumber: string;
     name: string;
@@ -8,5 +9,5 @@ export interface FarmerCreateRequest {
     totalAreaHectares: number;
     arableAreaHectares: number;
     vegetationAreaHectares: number;
-    crops: string[]
+    crops?: any[];
 }

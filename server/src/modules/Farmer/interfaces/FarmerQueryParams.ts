@@ -1,4 +1,5 @@
 export interface FarmerQueryParams {
+    id?: string;
     name?: string;
     documentType?: string;
     documentNumber?: string;
