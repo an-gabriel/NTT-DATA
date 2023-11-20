@@ -5,7 +5,7 @@ import { FarmerUpdateSchema } from '@/modules/Farmer/schemas/FarmerUpdateSchema'
 
 /**
  * @swagger
- * /api/v1/farmers/{id}/update:
+ * /api/v1/farmers/update/{id}:
  *   put:
  *     summary: Atualiza um agricultor existente
  *     tags: [Farmers]
