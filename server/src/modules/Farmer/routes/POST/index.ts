@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response, Router } from 'express';
+import express, { Request, Response, Router } from 'express';
 
 import ValidationMiddleware from '@/Middleware/ValidateSchema'
 
@@ -36,13 +36,17 @@ import { FarmerCreateSchema } from '@/modules/Farmer/schemas/FarmerCreateSchema'
   *                 type: number
   *               vegetationAreaHectares:
   *                 type: number
+  *               crops:
+  *                 type: array
+  *                 items:
+  *                   type: string
   *     responses:
   *       201:
   *         description: Agricultor criado com sucesso
   *         content:
   *           application/json:
   *             schema:
-  *               type: object  // Specify the type here instead of $ref
+  *               type: object
   *               properties:
   *                 id:
   *                   type: string
@@ -75,6 +79,11 @@ import { FarmerCreateSchema } from '@/modules/Farmer/schemas/FarmerCreateSchema'
   *                 vegetationAreaHectares:
   *                   type: number
   *                   description: Área de vegetação em hectares
+  *                 crops:
+  *                   type: array
+  *                   items:
+  *                     type: string
+  *                   description: IDs das culturas associadas ao agricultor
   *               example:
   *                 id: "ac9e6e3e-8f1b-4fc1-bb63-d4e57f1b3f8f"
   *                 documentType: "CPF"
@@ -86,11 +95,13 @@ import { FarmerCreateSchema } from '@/modules/Farmer/schemas/FarmerCreateSchema'
   *                 totalAreaHectares: 100
   *                 arableAreaHectares: 50
   *                 vegetationAreaHectares: 50
+  *                 crops: ["cropId1", "cropId2"]
   *       400:
   *         description: Dados inválidos do agricultor
   *       500:
   *         description: Erro interno do servidor
   */
+
 class FarmersCreate {
     public router: Router = express.Router();
 
