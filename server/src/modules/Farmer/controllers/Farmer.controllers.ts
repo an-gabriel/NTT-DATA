@@ -12,7 +12,7 @@ class FarmerController {
             const farmers = await FarmerService.getAllFarmers();
             return farmers
         } catch (error) {
-            throw new Error("Internal server error");
+            throw new Error((error as Error).message)
         }
     }
 
@@ -22,7 +22,7 @@ class FarmerController {
             const farmers = await FarmerService.getFarmersByFilters(filtersSanitezed);
             return farmers;
         } catch (error) {
-            throw new Error("Internal server error");
+            throw new Error((error as Error).message)
         }
     }
 
@@ -31,7 +31,7 @@ class FarmerController {
             const createdFarmer = await FarmerService.createFarmer(farmerData);
             return createdFarmer
         } catch (error) {
-            throw new Error("Internal server error");
+            throw new Error((error as Error).message)
         }
     }
 
@@ -40,7 +40,7 @@ class FarmerController {
             const updatedFarmer = await FarmerService.updateFarmer(id, farmerData);
             return updatedFarmer;
         } catch (error) {
-            throw new Error('Internal server error');
+            throw new Error((error as Error).message)
         }
     }
 
@@ -48,7 +48,7 @@ class FarmerController {
         try {
             await FarmerService.deleteFarmer(id);
         } catch (error) {
-            throw new Error('Internal server error');
+            throw new Error((error as Error).message)
         }
     }
 

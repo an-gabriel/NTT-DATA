@@ -10,30 +10,59 @@ class FarmerService {
     }
 
     async getAllFarmers(): Promise<FarmerGetAll[]> {
-        return await this.prisma.farmer.findMany({
-            where: {
-                active: true,
-                deletedAt: null,
-            },
-        });
+        try {
+            return await this.prisma.farmer.findMany({
+                where: {
+                    active: true,
+                    deletedAt: null,
+                },
+            });
+        } catch (error) {
+            throw new Error('A problem occurred while using getAllFarmers')
+        }
+
     }
 
     async getFarmersByFilters(queryParams: Partial<FarmerQueryParams>): Promise<FarmerGetAll[]> {
-        const where: Record<string, any> = Object.fromEntries(
-            Object.entries(queryParams).filter(([_, value]) => value !== undefined)
-        );
+        try {
+            const where: Record<string, any> = Object.fromEntries(
+                Object.entries(queryParams).filter(([_, value]) => value !== undefined)
+            );
 
-
-        return await this.prisma.farmer.findMany({
-            where,
-        });
+            return await this.prisma.farmer.findMany({
+                where,
+            });
+        } catch (error) {
+            throw new Error('A problem occurred while using getFarmersByFilters')
+        }
     }
 
-    async createFarmer(data: FarmerCreateInput) {
-        return await this.prisma.farmer.create({
-            data,
+    async createFarmer(data: FarmerCreateInput): Promise<FarmerCreateInput> {
+        const existingFarmer = await this.prisma.farmer.findFirst({
+            where: {
+                OR: [
+                    { documentNumber: data.documentNumber },
+                    { name: data.name },
+                    { farmName: data.farmName },
+                ],
+            },
         });
+
+        if (existingFarmer) {
+            throw new Error('A farmer with the same documentNumber, name, or farmName already exists.');
+        }
+
+        try {
+            const createCrop = await this.prisma.farmer.create({
+                data,
+            });
+
+            return createCrop;
+        } catch (error) {
+            throw new Error('A problem occurred while using getFarmersByFilters')
+        }
     }
+
 
     async updateFarmer(id: string, data: FarmerUpdateInput): Promise<FarmerGetAll | null> {
         const existingFarmer = await this.prisma.farmer.findUnique({
@@ -43,14 +72,19 @@ class FarmerService {
         if (!existingFarmer) {
             throw new Error(`Farmer with ID ${id} not found.`);
         }
+        try {
+            const updateFarmer = await this.prisma.farmer.update({
+                where: { id },
+                data,
+            });
 
-        return await this.prisma.farmer.update({
-            where: { id },
-            data,
-        });
+            return updateFarmer
+        } catch (error) {
+            throw new Error('A problem occurred while using updateFarmer')
+        }
     }
 
-    async deleteFarmer(id: string): Promise<FarmerGetAll | null> {
+    async deleteFarmer(id: string): Promise<void> {
         const existingFarmer = await this.prisma.farmer.findUnique({
             where: { id },
         });
@@ -59,13 +93,19 @@ class FarmerService {
             throw new Error(`Farmer with ID ${id} not found.`);
         }
 
-        return await this.prisma.farmer.update({
-            where: { id },
-            data: {
-                deletedAt: new Date(),
-                active: false,
-            },
-        });
+        try {
+            await this.prisma.farmer.update({
+                where: { id },
+                data: {
+                    deletedAt: new Date(),
+                    active: false,
+                },
+            });
+
+            return
+        } catch (error) {
+            throw new Error('A problem occurred while using deleteFarmer')
+        }
     }
 }
 

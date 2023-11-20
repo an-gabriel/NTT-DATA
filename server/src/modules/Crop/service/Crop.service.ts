@@ -10,28 +10,50 @@ class CropService {
     }
 
     async getAllCrops(): Promise<CropGetAll[]> {
-        return await this.prisma.crop.findMany({
-            where: {
-                active: true,
-                deletedAt: null,
-            },
-        });
+        try {
+            return await this.prisma.crop.findMany({
+                where: {
+                    active: true,
+                    deletedAt: null,
+                },
+            });
+        } catch (error) {
+            throw new Error('A problem occurred while using getAllCrops')
+        }
     }
 
     async getCropsByFilters(queryParams: Partial<CropQueryParams>): Promise<CropGetAll[]> {
-        const where: Record<string, any> = Object.fromEntries(
-            Object.entries(queryParams).filter(([_, value]) => value !== undefined)
-        );
+        try {
+            const where: Record<string, any> = Object.fromEntries(
+                Object.entries(queryParams).filter(([_, value]) => value !== undefined)
+            );
 
-        return await this.prisma.crop.findMany({
-            where,
-        });
+            return await this.prisma.crop.findMany({
+                where,
+            });
+        } catch (error) {
+            throw new Error('A problem occurred while using getCropsByFilters')
+        }
     }
 
-    async createCrop(data: CropCreateInput): Promise<CropGetAll> {
-        return await this.prisma.crop.create({
-            data,
+    async createCrop(cropData: CropCreateInput): Promise<CropCreateInput | Error> {
+        const existingCrop = await this.prisma.crop.findFirst({
+            where: { name: cropData.name },
         });
+
+        if (existingCrop) {
+            throw new Error('There is already a crop with that name');
+        }
+
+        try {
+            const createdCrop = await this.prisma.crop.create({
+                data: cropData,
+            });
+
+            return createdCrop;
+        } catch (error) {
+            throw new Error('A problem occurred while using createCrop')
+        }
     }
 
     async updateCrop(id: string, data: CropUpdateInput): Promise<CropGetAll | null> {
@@ -43,10 +65,16 @@ class CropService {
             throw new Error(`Crop with ID ${id} not found.`);
         }
 
-        return await this.prisma.crop.update({
-            where: { id },
-            data,
-        });
+        try {
+            const updateCrop = await this.prisma.crop.update({
+                where: { id },
+                data,
+            });
+
+            return updateCrop
+        } catch (error) {
+            throw new Error('A problem occurred while using updateCrop')
+        }
     }
 
     async deleteCrop(id: string): Promise<CropGetAll | null> {
@@ -58,13 +86,17 @@ class CropService {
             throw new Error(`Crop with ID ${id} not found.`);
         }
 
-        return await this.prisma.crop.update({
-            where: { id },
-            data: {
-                deletedAt: new Date(),
-                active: false,
-            },
-        });
+        try {
+            return await this.prisma.crop.update({
+                where: { id },
+                data: {
+                    deletedAt: new Date(),
+                    active: false,
+                },
+            });
+        } catch (error) {
+            throw new Error('A problem occurred while using deleteCrop')
+        }
     }
 }
 
