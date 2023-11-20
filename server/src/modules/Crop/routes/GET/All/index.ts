@@ -62,7 +62,7 @@ class GetAllCropsRouter {
             res.status(200).json(crops);
         } catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            res.status(500).json({ error: (error as Error).message });
         }
     }
 

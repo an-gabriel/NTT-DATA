@@ -12,16 +12,17 @@ class CropController {
             const crops = await CropService.getAllCrops();
             return crops;
         } catch (error) {
-            throw new Error("Internal server error");
+            throw new Error((error as Error).message)
         }
     }
 
     async getCropsByFilters(filters: Partial<CropQueryParams>): Promise<CropGetAll[] | Error> {
         try {
-            const crops = await CropService.getCropsByFilters(filters);
+            const filtersSanitezed = this.sanitizeCropQueryParams(filters);
+            const crops = await CropService.getCropsByFilters(filtersSanitezed);
             return crops;
         } catch (error) {
-            throw new Error("Internal server error");
+            throw new Error((error as Error).message)
         }
     }
 
@@ -30,7 +31,7 @@ class CropController {
             const createdCrop = await CropService.createCrop(cropData);
             return createdCrop;
         } catch (error) {
-            throw new Error("Internal server error");
+            throw new Error((error as Error).message)
         }
     }
 
@@ -39,7 +40,7 @@ class CropController {
             const updatedCrop = await CropService.updateCrop(id, cropData);
             return updatedCrop;
         } catch (error) {
-            throw new Error('Internal server error');
+            throw new Error((error as Error).message)
         }
     }
 
@@ -47,9 +48,27 @@ class CropController {
         try {
             await CropService.deleteCrop(id);
         } catch (error) {
-            throw new Error('Internal server error');
+            throw new Error((error as Error).message)
         }
     }
+
+    private sanitizeCropQueryParams(data: Partial<CropQueryParams>): CropQueryParams {
+        const sanitize: Partial<CropQueryParams> = {};
+
+        if (data.active) {
+            sanitize.active = typeof data.active === 'string'
+                ? String(data.active).toLowerCase() === 'true'
+                : Boolean(data.active);
+        }
+
+        if (data.name) {
+            sanitize.name = data.name;
+        }
+
+        return sanitize as CropQueryParams;
+    }
+
+
 }
 
 export default new CropController();

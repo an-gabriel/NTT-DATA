@@ -5,19 +5,19 @@ import CropController from '@/modules/Crop/controllers/Crop.controllers';
  * @swagger
  * /api/v1/crops/delete/{id}:
  *   delete:
- *     summary: Exclui uma safra existente
+ *     summary: Exclui uma platanção existente
  *     tags: [Crops]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: UUID da safra a ser excluída
+ *         description: UUID da platanção a ser excluída
  *         schema:
  *           type: string
  *           format: uuid
  *     responses:
  *       201:
- *         description: Safra excluída com sucesso
+ *         description: platanção excluída com sucesso
  *         content:
  *           application/json:
  *             schema:
@@ -26,7 +26,7 @@ import CropController from '@/modules/Crop/controllers/Crop.controllers';
  *                 message:
  *                   type: string
  *                   description: Mensagem indicando que a deleção foi realizada com sucesso
- *                   example: Safra excluída com sucesso
+ *                   example: platanção excluída com sucesso
  *       500:
  *         description: Erro interno do servidor
  */
@@ -46,7 +46,7 @@ class CropsDeleteRouter {
             res.status(201).json({ message: 'Crop deleted successfully' });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'Internal server error' });
+            res.status(500).json({ error: (error as Error).message });
         }
     }
 

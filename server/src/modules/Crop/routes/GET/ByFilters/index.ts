@@ -17,18 +17,6 @@ import { CropQueryParamsSchema } from '@/modules/Crop/schemas/CropQueryParamsSch
  *         schema:
  *           type: string
  *       - in: query
- *         name: startDate
- *         description: Data de início da platanção
- *         schema:
- *           type: string
- *           format: date
- *       - in: query
- *         name: endDate
- *         description: Data de término da platanção
- *         schema:
- *           type: string
- *           format: date
- *       - in: query
  *         name: active
  *         description: Indica se a platanção está ativa
  *         schema:
@@ -50,27 +38,15 @@ import { CropQueryParamsSchema } from '@/modules/Crop/schemas/CropQueryParamsSch
  *                   name:
  *                     type: string
  *                     description: Nome da platanção
- *                   startDate:
- *                     type: string
- *                     format: date
- *                     description: Data de início da platanção
- *                   endDate:
- *                     type: string
- *                     format: date
- *                     description: Data de término da platanção
  *                   active:
  *                     type: boolean
  *                     description: Indica se a platanção está ativa
  *               example:
  *                 - id: "ac9e6e3e-8f1b-4fc1-bb63-d4e57f1b3f8f"
  *                   name: "platanção 1"
- *                   startDate: "2023-01-01"
- *                   endDate: "2023-12-31"
  *                   active: true
  *                 - id: "ecdf25d2-5eab-4a6a-9b18-4c0380d602f1"
  *                   name: "platanção 2"
- *                   startDate: "2023-02-01"
- *                   endDate: "2023-11-30"
  *                   active: false
  *       500:
  *         description: Erro interno do servidor
@@ -89,7 +65,7 @@ class CropsByFiltersRouter {
             res.status(200).json(crops);
         } catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            res.status(500).json({ error: (error as Error).message });
         }
     }
 

@@ -18,14 +18,6 @@ import { CropCreateSchema } from '@/modules/Crop/schemas/CropCreateSchema';
  *             properties:
  *               name:
  *                 type: string
- *               startDate:
- *                 type: string
- *                 format: date
- *               endDate:
- *                 type: string
- *                 format: date
- *               active:
- *                 type: boolean
  *     responses:
  *       201:
  *         description: platanção criada com sucesso
@@ -41,22 +33,9 @@ import { CropCreateSchema } from '@/modules/Crop/schemas/CropCreateSchema';
  *                 name:
  *                   type: string
  *                   description: Nome da platanção
- *                 startDate:
- *                   type: string
- *                   format: date
- *                   description: Data de início da platanção
- *                 endDate:
- *                   type: string
- *                   format: date
- *                   description: Data de término da platanção
- *                 active:
- *                   type: boolean
- *                   description: Indica se a platanção está ativa
  *               example:
  *                 id: "ac9e6e3e-8f1b-4fc1-bb63-d4e57f1b3f8f"
  *                 name: "platanção 1"
- *                 startDate: "2023-01-01"
- *                 endDate: "2023-12-31"
  *                 active: true
  *       400:
  *         description: Dados inválidos da platanção
@@ -77,7 +56,7 @@ class CropsCreateRouter {
             res.status(201).json(createdCrop);
         } catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            res.status(500).json({ error: (error as Error).message });
         }
     }
 

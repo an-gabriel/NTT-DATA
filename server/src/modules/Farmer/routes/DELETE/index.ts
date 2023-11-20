@@ -47,7 +47,7 @@ class FarmersDeleteRouter {
             res.status(201).json({ message: 'Farmer deleted successfully' });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            res.status(500).json({ error: (error as Error).message });
         }
     }
 
