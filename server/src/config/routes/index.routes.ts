@@ -13,4 +13,10 @@ AllRoutes.use('/farmers/update', updateFarmer);
 AllRoutes.use('/farmers/delete', deleteFarmer);
 AllRoutes.use('/farmers/filters', getFarmersByFilters);
 
+AllRoutes.use('/crops', getAll);
+AllRoutes.use('/crops/create', createFarmer);
+AllRoutes.use('/crops/update', updateFarmer);
+AllRoutes.use('/crops/delete', deleteFarmer);
+AllRoutes.use('/crops/filters', getFarmersByFilters);
+
 export default AllRoutes;
