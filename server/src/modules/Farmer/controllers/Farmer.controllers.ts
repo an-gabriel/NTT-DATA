@@ -2,8 +2,9 @@ import FarmerService from '@/modules/Farmer/service/Farmer.service';
 import {
     FarmerGetAll,
     FarmerUpdateInput,
-    FarmerCreateInput,
-    FarmerQueryParams
+    FarmerQueryParams,
+    FarmerCreateRequest,
+    FarmerCreateDatabase
 } from '@/modules/Farmer/interfaces';
 
 class FarmerController {
@@ -26,12 +27,15 @@ class FarmerController {
         }
     }
 
-    async createFarmer(farmerData: FarmerCreateInput): Promise<FarmerCreateInput | Error> {
+    async createFarmer(farmerData: FarmerCreateRequest): Promise<FarmerCreateDatabase[]> {
         try {
-            const createdFarmer = await FarmerService.createFarmer(farmerData);
-            return createdFarmer
+            const { crops, ...rest } = farmerData;
+
+            const createdFarmer = await FarmerService.createFarmer(rest, crops);
+
+            return createdFarmer;
         } catch (error) {
-            throw new Error((error as Error).message)
+            throw new Error((error as Error).message);
         }
     }
 
