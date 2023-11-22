@@ -1,6 +1,6 @@
 import express, { Request, Response, Router } from 'express';
 import FarmerControllers from '@/modules/Farmer/controllers/Farmer.controllers';
-import ValidationMiddleware from '@/Middleware/ValidateSchema';
+import ValidationMiddleware from '@/middleware/ValidateSchema';
 import { FarmerQueryParamsSchema } from '@/modules/Farmer/schemas/FarmerQueryParamsSchema';
 import { FarmerQueryParams } from '@/modules/Farmer/interfaces';
 

@@ -1,14 +1,16 @@
-import { CropOnFarm, PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { FarmerCreateRequest, FarmerQueryParams, FarmerGetAll, FarmerUpdateInput, FarmerCreateDatabase } from '@/modules/Farmer/interfaces'
 
 import { FarmerServiceUtils } from '@/modules/Farmer/service/Farmer.service.util';
+import { PrismaInstance } from '@/modules/Logger/prisma'; // Importe a instância do PrismaLogger
+
 
 class FarmerService {
-    private prisma: PrismaClient;
+    private prisma;
     private util: FarmerServiceUtils;
 
     constructor() {
-        this.prisma = new PrismaClient();
+        this.prisma = PrismaInstance
         this.util = new FarmerServiceUtils(this.prisma);
     }
 
@@ -122,6 +124,13 @@ class FarmerService {
             throw new Error('A problem occurred while creating CropOnFarm')
         }
     }
+
+    getUtil(): FarmerServiceUtils {
+        return this.util;
+    }
 }
 
-export default new FarmerService();
+const farmerServiceInstance = new FarmerService();
+
+export const FarmerServiceInstance = farmerServiceInstance;
+export const FarmerServiceUtil = farmerServiceInstance.getUtil();
