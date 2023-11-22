@@ -1,6 +1,6 @@
 import express, { Request, Response, Router } from 'express';
 import CropController from '@/modules/Crop/controllers/Crop.controllers';
-import ValidationMiddleware from '@/Middleware/ValidateSchema';
+import ValidationMiddleware from '@/middleware/ValidateSchema';
 import { CropUpdateSchema } from '@/modules/Crop/schemas/CropUpdateSchema';
 
 /**
