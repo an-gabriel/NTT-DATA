@@ -46,3 +46,11 @@ model Farmer {
   deletedAt              DateTime?
   active                 Boolean      @default(true)
 }
+
+model Log {
+  id        String   @id @default(uuid())
+  timestamp DateTime @default(now())
+  level     String
+  message   String
+  operation String
+}
